@@ -23,7 +23,7 @@ export default function ContactPage() {
     defaultValues: {
       name: "",
       email: "",
-        subject: "",
+      subject: "",
       phone: "",
       message: "",
     },
@@ -136,10 +136,8 @@ export default function ContactPage() {
                 />
                 {errors.phone ? <p className="text-sm text-rose-300">{errors.phone.message}</p> : null}
               </label>
-
               <div className="hidden md:block" aria-hidden="true" />
             </div>
-
             <label className="space-y-2">
               <span className="text-sm font-medium text-slate-200">Subject</span>
               <input
@@ -150,7 +148,6 @@ export default function ContactPage() {
               />
               {errors.subject ? <p className="text-sm text-rose-300">{errors.subject.message}</p> : null}
             </label>
-
             <label className="block space-y-2">
               <span className="text-sm font-medium text-slate-200">Message</span>
               <textarea
@@ -162,19 +159,16 @@ export default function ContactPage() {
               />
               {errors.message ? <p className="text-sm text-rose-300">{errors.message.message}</p> : null}
             </label>
-
             {serverError ? (
               <div className="rounded-xl border border-rose-500/30 bg-rose-500/10 px-4 py-3 text-sm text-rose-100">
                 {serverError}
               </div>
             ) : null}
-
             {successMessage ? (
               <div className="rounded-xl border border-emerald-400/30 bg-emerald-400/10 px-4 py-3 text-sm text-emerald-100">
                 {successMessage}
               </div>
             ) : null}
-
             <button
               type="submit"
               disabled={isSubmitting}
