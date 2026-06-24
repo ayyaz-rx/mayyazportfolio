@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { githubUrl, heroStats, projects, services, skills } from "../data/portfolio";
 import ContactSection from "../components/sections/contact";
+import ExperienceSection from "../components/sections/Experience";
 
 export default function HomePage() {
   return (
@@ -42,12 +43,11 @@ export default function HomePage() {
           </div>
         </div>
       </section>
-
       <section className="section section-muted section-about-home">
         <div className="container about-grid">
           <div className="section-copy">
             <span className="eyebrow">About Me</span>
-            <h2>About me</h2>
+            <h2>About Me</h2>
             <p>
               I focus on frontend experiences that feel structured, intentional, and visually
               consistent across every route .
@@ -90,6 +90,8 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      <ExperienceSection limit={2} />
 
       <section className="section section-muted">
         <div className="container section-heading section-heading-row">

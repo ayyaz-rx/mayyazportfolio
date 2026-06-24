@@ -5,10 +5,12 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { contactSchema } from "@/lib/validation/contactSchema";
+import { Section } from "../../components/section";
+import { contactDetails, githubUrl, resumeUrl } from "../../data/portfolio";
 
 type ContactFormValues = z.input<typeof contactSchema>;
 
-export default function ContactPage() {
+export default function ContactSection() {
   const [successMessage, setSuccessMessage] = useState("");
   const [serverError, setServerError] = useState("");
 
@@ -34,70 +36,138 @@ export default function ContactPage() {
     setServerError("");
     setSuccessMessage("");
 
-    const res = await fetch("/api/contact", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(values),
-    });
-
-    const data = await res.json();
-
-    if (!res.ok) {
-      const fieldErrors = data?.errors || {};
-
-      Object.entries(fieldErrors).forEach(([field, messages]) => {
-        const message = Array.isArray(messages) ? messages[0] : undefined;
-        if (message) {
-          setError(field as keyof ContactFormValues, { type: "server", message });
-        }
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(values),
       });
 
-      setServerError(data?.message || "Error sending message. Please try again.");
-      return;
-    }
+      const data = await res.json();
 
-    setSuccessMessage(data?.message || "Message sent successfully.");
-    reset();
+      if (!res.ok) {
+        const fieldErrors = data?.errors || {};
+
+        Object.entries(fieldErrors).forEach(([field, messages]) => {
+          const message = Array.isArray(messages) ? messages[0] : undefined;
+
+          if (message) {
+            setError(field as keyof ContactFormValues, {
+              type: "server",
+              message,
+            });
+          }
+        });
+
+        setServerError(
+          data?.message || "Error sending message. Please try again.",
+        );
+
+        return;
+      }
+
+      setSuccessMessage(data?.message || "Message sent successfully.");
+
+      reset();
+    } catch (error) {
+      setServerError("Something went wrong. Please try again later.");
+    }
   };
 
   return (
-    <section className="relative overflow-hidden bg-[#06152b] text-white">
-      <div
-        className="absolute inset-0 opacity-25"
-        style={{
-          backgroundImage: `radial-gradient(circle at 20% 20%, rgba(34,211,238,0.18), transparent 28%), radial-gradient(circle at 80% 10%, rgba(59,130,246,0.18), transparent 26%), radial-gradient(circle at 50% 90%, rgba(14,165,233,0.16), transparent 30%)`,
-        }}
-      />
-
-      <div className="relative z-10 mx-auto grid max-w-7xl gap-10 px-6 py-20 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
-        <div className="space-y-6">
-          <span className="inline-flex rounded-full border border-cyan-400/30 bg-white/5 px-4 py-2 text-xs tracking-[0.2em] text-cyan-100 uppercase">
-            Contact
-          </span>
-          <div>
-            <h2 className="text-3xl font-bold tracking-tight md:text-5xl">
-              Let&apos;s build something useful.
-            </h2>
-            <p className="mt-4 max-w-xl text-sm leading-7 text-slate-300 md:text-base">
-              Send me a message and I&apos;ll receive it by email.
-              I&apos;ll also store the submission in the database for follow-up.
-            </p>
+    <Section
+      eyebrow="Contact"
+      title="Get In Touch"
+      description="Have a project in mind? Fill in the form and I'll get back to you as soon as possible."
+    >
+      <div className="contact-grid contact-grid-page">
+        <div className="glass-card contact-panel">
+          <div className="contact-details">
+            {contactDetails.map((item) => (
+              <div className="contact-row" key={item.label}>
+                <span>{item.label}</span>
+                <strong>{item.value}</strong>
+              </div>
+            ))}
           </div>
 
-          <div className="grid gap-4 sm:grid-cols-2">
-            <div className="rounded-2xl border border-white/10 bg-white/5 p-5 backdrop-blur-md">
-              <p className="text-xs uppercase tracking-[0.2em] text-cyan-200/70">Email</p>
-              <p className="mt-2 text-sm text-white/90">Fast response and confirmation</p>
-            </div>
-            <div className="rounded-2xl border border-white/10 bg-white/5 p-5 backdrop-blur-md">
-              <p className="text-xs uppercase tracking-[0.2em] text-cyan-200/70">Database</p>
-              <p className="mt-2 text-sm text-white/90">Saved for later review</p>
-            </div>
+          <div className="action-row" style={{ marginTop: "32px" }}>
+            <a className="button button-primary" href={githubUrl} target="_blank" rel="noreferrer">
+              GitHub
+            </a>
+            <a className="button button-secondary" href={resumeUrl} target="_blank" rel="noreferrer">
+              Resume
+            </a>
           </div>
         </div>
 
+        <div className="glass-card contact-panel">
+          <form className="contact-form" onSubmit={handleSubmit(onSubmit)}>
+            <label>
+              <span>Full Name</span>
+              <input type="text" placeholder="Your full name" {...register("name")} />
+              {errors.name && (
+                <p style={{ color: "#f87171", fontSize: "14px", marginTop: "8px", padding: "10px", background: "rgba(239,68,68,0.1)", borderRadius: "8px", border: "1px solid rgba(239,68,68,0.3)" }}>
+                  {errors.name.message}
+                </p>
+              )}
+            </label>
+            
+            <label>
+              <span>Email Address</span>
+              <input type="email" placeholder="you@example.com" {...register("email")} />
+              {errors.email && (
+                <p style={{ color: "#f87171", fontSize: "14px", marginTop: "8px", padding: "10px", background: "rgba(239,68,68,0.1)", borderRadius: "8px", border: "1px solid rgba(239,68,68,0.3)" }}>
+                  {errors.email.message}
+                </p>
+              )}
+            </label>
+            
+            <label>
+              <span>Phone Number</span>
+              <input type="tel" placeholder="03160019053 or +923160019053" {...register("phone")} />
+              {errors.phone && (
+                <p style={{ color: "#f87171", fontSize: "14px", marginTop: "8px", padding: "10px", background: "rgba(239,68,68,0.1)", borderRadius: "8px", border: "1px solid rgba(239,68,68,0.3)" }}>
+                  {errors.phone.message}
+                </p>
+              )}
+            </label>
+            
+            <label>
+              <span>Subject</span>
+              <input type="text" placeholder="What is this about?" {...register("subject")} />
+              {errors.subject && (
+                <p style={{ color: "#f87171", fontSize: "14px", marginTop: "8px", padding: "10px", background: "rgba(239,68,68,0.1)", borderRadius: "8px", border: "1px solid rgba(239,68,68,0.3)" }}>
+                  {errors.subject.message}
+                </p>
+              )}
+            </label>
+            
+            <label>
+              <span>Message</span>
+              <textarea rows={5} placeholder="Tell me about your project..." {...register("message")} />
+              {errors.message && (
+                <p style={{ color: "#f87171", fontSize: "14px", marginTop: "8px", padding: "10px", background: "rgba(239,68,68,0.1)", borderRadius: "8px", border: "1px solid rgba(239,68,68,0.3)" }}>
+                  {errors.message.message}
+                </p>
+              )}
+            </label>
+
+            {serverError && (
+              <p style={{ color: "#f87171", fontSize: "14px", marginTop: "8px", padding: "10px", background: "rgba(239,68,68,0.1)", borderRadius: "8px", border: "1px solid rgba(239,68,68,0.3)" }}>
+                {serverError}
+              </p>
+            )}
+            
+            {successMessage && (
+              <p style={{ color: "#34d399", fontSize: "14px", marginTop: "8px", padding: "10px", background: "rgba(52,211,153,0.1)", borderRadius: "8px", border: "1px solid rgba(52,211,153,0.3)" }}>
+                {successMessage}
+              </p>
+            )}
+
+            <button className="button button-primary button-submit" type="submit" disabled={isSubmitting}>
         <div className="rounded-[28px] border border-white/10 bg-white/8 p-6 shadow-2xl shadow-cyan-950/20 backdrop-blur-xl md:p-8">
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
             <div className="grid gap-5 md:grid-cols-2">
@@ -179,6 +249,6 @@ export default function ContactPage() {
           </form>
         </div>
       </div>
-    </section>
+    </Section>
   );
 }
