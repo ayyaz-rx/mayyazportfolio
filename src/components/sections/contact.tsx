@@ -5,6 +5,8 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { contactSchema } from "@/lib/validation/contactSchema";
+import { Section } from "../../components/section";
+import { contactDetails, githubUrl, resumeUrl } from "../../data/portfolio";
 
 type ContactFormValues = z.input<typeof contactSchema>;
 
@@ -75,180 +77,102 @@ export default function ContactSection() {
   };
 
   return (
-    <section className="relative overflow-hidden bg-[#06152b] text-white">
-      <div
-        className="absolute inset-0 opacity-25"
-        style={{
-          backgroundImage: `radial-gradient(circle at 20% 20%, rgba(34,211,238,0.18), transparent 28%),
-             radial-gradient(circle at 80% 10%, rgba(59,130,246,0.18), transparent 26%),
-             radial-gradient(circle at 50% 90%, rgba(14,165,233,0.16), transparent 30%)`,
-        }}
-      />
-
-      <div className="relative z-10 mx-auto w-full max-w-7xl px-6 py-20">
-        <div className="grid w-full gap-10 lg:grid-cols-2">
-          {/* Left Content */}
-
-          <div className="space-y-6">
-            <span className="inline-flex rounded-full border border-cyan-400/30 bg-white/5 px-4 py-2 text-xs uppercase tracking-[0.2em] text-cyan-100">
-              Contact
-            </span>
-
-            <div>
-              <h2 className="text-3xl font-bold tracking-tight md:text-5xl">
-                Let&apos;s build something useful.
-              </h2>
-
-              <p className="mt-4 max-w-xl text-sm leading-7 text-slate-300 md:text-base">
-                Send me a message and I&apos;ll receive it by email. I&apos;ll
-                also store the submission in the database for follow-up.
-              </p>
-            </div>
-
-            <div className="grid gap-4 sm:grid-cols-2">
-              <div className="rounded-2xl border border-white/10 bg-white/5 p-5 backdrop-blur-md">
-                <p className="text-xs uppercase tracking-[0.2em] text-cyan-200/70">
-                  Email
-                </p>
-
-                <p className="mt-2 text-sm text-white/90">
-                  Fast response and confirmation
-                </p>
+    <Section
+      eyebrow="Contact"
+      title="Get In Touch"
+      description="Have a project in mind? Fill in the form and I'll get back to you as soon as possible."
+    >
+      <div className="contact-grid contact-grid-page">
+        <div className="glass-card contact-panel">
+          <div className="contact-details">
+            {contactDetails.map((item) => (
+              <div className="contact-row" key={item.label}>
+                <span>{item.label}</span>
+                <strong>{item.value}</strong>
               </div>
-
-              <div className="rounded-2xl border border-white/10 bg-white/5 p-5 backdrop-blur-md">
-                <p className="text-xs uppercase tracking-[0.2em] text-cyan-200/70">
-                  Database
-                </p>
-
-                <p className="mt-2 text-sm text-white/90">
-                  Saved for later review
-                </p>
-              </div>
-            </div>
+            ))}
           </div>
 
-          {/* Form */}
-
-          <div className="w-full rounded-[28px] border border-white/10 bg-white/10 p-6 shadow-2xl shadow-cyan-950/20 backdrop-blur-xl md:p-8">
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
-              <div className="grid gap-5 md:grid-cols-2">
-                <label className="space-y-2">
-                  <span className="text-sm font-medium text-slate-200">
-                    Name
-                  </span>
-
-                  <input
-                    placeholder="Your full name"
-                    {...register("name")}
-                    className="w-full rounded-xl border border-white/10 bg-[#071a31] px-4 py-3 text-white outline-none placeholder:text-slate-500 focus:border-cyan-400"
-                  />
-
-                  {errors.name && (
-                    <p className="text-sm text-rose-300">
-                      {errors.name.message}
-                    </p>
-                  )}
-                </label>
-
-                <label className="space-y-2">
-                  <span className="text-sm font-medium text-slate-200">
-                    Email
-                  </span>
-
-                  <input
-                    type="email"
-                    placeholder="you@example.com"
-                    {...register("email")}
-                    className="w-full rounded-xl border border-white/10 bg-[#071a31] px-4 py-3 text-white outline-none placeholder:text-slate-500 focus:border-cyan-400"
-                  />
-
-                  {errors.email && (
-                    <p className="text-sm text-rose-300">
-                      {errors.email.message}
-                    </p>
-                  )}
-                </label>
-              </div>
-
-              <label className="space-y-2">
-                <span className="text-sm font-medium text-slate-200">
-                  Phone
-                </span>
-
-                <input
-                  placeholder="+92 316 0019053"
-                  {...register("phone")}
-                  className="w-full rounded-xl border border-white/10 bg-[#071a31] px-4 py-3 text-white outline-none placeholder:text-slate-500 focus:border-cyan-400"
-                />
-
-                {errors.phone && (
-                  <p className="text-sm text-rose-300">
-                    {errors.phone.message}
-                  </p>
-                )}
-              </label>
-
-              <label className="space-y-2">
-                <span className="text-sm font-medium text-slate-200">
-                  Subject
-                </span>
-
-                <input
-                  placeholder="Short subject for your message"
-                  {...register("subject")}
-                  className="w-full rounded-xl border border-white/10 bg-[#071a31] px-4 py-3 text-white outline-none placeholder:text-slate-500 focus:border-cyan-400"
-                />
-
-                {errors.subject && (
-                  <p className="text-sm text-rose-300">
-                    {errors.subject.message}
-                  </p>
-                )}
-              </label>
-
-              <label className="space-y-2">
-                <span className="text-sm font-medium text-slate-200">
-                  Message
-                </span>
-
-                <textarea
-                  rows={6}
-                  placeholder="Tell me about your project"
-                  {...register("message")}
-                  className="w-full rounded-xl border border-white/10 bg-[#071a31] px-4 py-3 text-white outline-none placeholder:text-slate-500 focus:border-cyan-400"
-                />
-
-                {errors.message && (
-                  <p className="text-sm text-rose-300">
-                    {errors.message.message}
-                  </p>
-                )}
-              </label>
-
-              {serverError && (
-                <div className="rounded-xl border border-rose-500/30 bg-rose-500/10 px-4 py-3 text-sm text-rose-100">
-                  {serverError}
-                </div>
-              )}
-
-              {successMessage && (
-                <div className="rounded-xl border border-emerald-400/30 bg-emerald-400/10 px-4 py-3 text-sm text-emerald-100">
-                  {successMessage}
-                </div>
-              )}
-
-              <button
-                type="submit"
-                disabled={isSubmitting}
-                className="w-full rounded-xl bg-cyan-400 px-5 py-3 font-semibold text-black transition hover:bg-cyan-300 disabled:opacity-70"
-              >
-                {isSubmitting ? "Sending..." : "Send Message"}
-              </button>
-            </form>
+          <div className="action-row" style={{ marginTop: "32px" }}>
+            <a className="button button-primary" href={githubUrl} target="_blank" rel="noreferrer">
+              GitHub
+            </a>
+            <a className="button button-secondary" href={resumeUrl} target="_blank" rel="noreferrer">
+              Resume
+            </a>
           </div>
         </div>
+
+        <div className="glass-card contact-panel">
+          <form className="contact-form" onSubmit={handleSubmit(onSubmit)}>
+            <label>
+              <span>Full Name</span>
+              <input type="text" placeholder="Your full name" {...register("name")} />
+              {errors.name && (
+                <p style={{ color: "#f87171", fontSize: "14px", marginTop: "8px", padding: "10px", background: "rgba(239,68,68,0.1)", borderRadius: "8px", border: "1px solid rgba(239,68,68,0.3)" }}>
+                  {errors.name.message}
+                </p>
+              )}
+            </label>
+            
+            <label>
+              <span>Email Address</span>
+              <input type="email" placeholder="you@example.com" {...register("email")} />
+              {errors.email && (
+                <p style={{ color: "#f87171", fontSize: "14px", marginTop: "8px", padding: "10px", background: "rgba(239,68,68,0.1)", borderRadius: "8px", border: "1px solid rgba(239,68,68,0.3)" }}>
+                  {errors.email.message}
+                </p>
+              )}
+            </label>
+            
+            <label>
+              <span>Phone Number</span>
+              <input type="tel" placeholder="03160019053 or +923160019053" {...register("phone")} />
+              {errors.phone && (
+                <p style={{ color: "#f87171", fontSize: "14px", marginTop: "8px", padding: "10px", background: "rgba(239,68,68,0.1)", borderRadius: "8px", border: "1px solid rgba(239,68,68,0.3)" }}>
+                  {errors.phone.message}
+                </p>
+              )}
+            </label>
+            
+            <label>
+              <span>Subject</span>
+              <input type="text" placeholder="What is this about?" {...register("subject")} />
+              {errors.subject && (
+                <p style={{ color: "#f87171", fontSize: "14px", marginTop: "8px", padding: "10px", background: "rgba(239,68,68,0.1)", borderRadius: "8px", border: "1px solid rgba(239,68,68,0.3)" }}>
+                  {errors.subject.message}
+                </p>
+              )}
+            </label>
+            
+            <label>
+              <span>Message</span>
+              <textarea rows={5} placeholder="Tell me about your project..." {...register("message")} />
+              {errors.message && (
+                <p style={{ color: "#f87171", fontSize: "14px", marginTop: "8px", padding: "10px", background: "rgba(239,68,68,0.1)", borderRadius: "8px", border: "1px solid rgba(239,68,68,0.3)" }}>
+                  {errors.message.message}
+                </p>
+              )}
+            </label>
+
+            {serverError && (
+              <p style={{ color: "#f87171", fontSize: "14px", marginTop: "8px", padding: "10px", background: "rgba(239,68,68,0.1)", borderRadius: "8px", border: "1px solid rgba(239,68,68,0.3)" }}>
+                {serverError}
+              </p>
+            )}
+            
+            {successMessage && (
+              <p style={{ color: "#34d399", fontSize: "14px", marginTop: "8px", padding: "10px", background: "rgba(52,211,153,0.1)", borderRadius: "8px", border: "1px solid rgba(52,211,153,0.3)" }}>
+                {successMessage}
+              </p>
+            )}
+
+            <button className="button button-primary button-submit" type="submit" disabled={isSubmitting}>
+              {isSubmitting ? "Sending..." : "Send Message"}
+            </button>
+          </form>
+        </div>
       </div>
-    </section>
+    </Section>
   );
 }

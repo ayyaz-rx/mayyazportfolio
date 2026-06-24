@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { githubUrl, heroStats, projects, services, skills } from "../data/portfolio";
 import ContactSection from "../components/sections/contact";
+import ExperienceSection from "../components/sections/Experience";
 
 export default function HomePage() {
   return (
@@ -90,6 +91,8 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      <ExperienceSection />
 
       <section className="section section-muted">
         <div className="container section-heading section-heading-row">
