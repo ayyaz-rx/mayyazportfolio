@@ -18,7 +18,6 @@ export default function HomePage() {
               I design and build clean, fast, and modern interfaces with route-driven structure,
               reusable components, and a premium portfolio feel.
             </p>
-
             <div className="action-row">
               <Link className="button button-primary" href="/projects">
                 View My Projects
@@ -51,7 +50,7 @@ export default function HomePage() {
             <h2>About Me</h2>
             <p>
               I focus on frontend experiences that feel structured, intentional, and visually
-              consistent across every route.
+              consistent across every route .
             </p>
           </div>
 
