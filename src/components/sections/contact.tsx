@@ -10,6 +10,26 @@ import { contactDetails, githubUrl, resumeUrl } from "../../data/portfolio";
 
 type ContactFormValues = z.input<typeof contactSchema>;
 
+const errorStyle = {
+  color: "#f87171",
+  fontSize: "14px",
+  marginTop: "8px",
+  padding: "10px",
+  background: "rgba(239,68,68,0.1)",
+  borderRadius: "8px",
+  border: "1px solid rgba(239,68,68,0.3)",
+};
+
+const successStyle = {
+  color: "#34d399",
+  fontSize: "14px",
+  marginTop: "8px",
+  padding: "10px",
+  background: "rgba(52,211,153,0.1)",
+  borderRadius: "8px",
+  border: "1px solid rgba(52,211,153,0.3)",
+};
+
 export default function ContactSection() {
   const [successMessage, setSuccessMessage] = useState("");
   const [serverError, setServerError] = useState("");
@@ -94,10 +114,20 @@ export default function ContactSection() {
           </div>
 
           <div className="action-row" style={{ marginTop: "32px" }}>
-            <a className="button button-primary" href={githubUrl} target="_blank" rel="noreferrer">
+            <a
+              className="button button-primary"
+              href={githubUrl}
+              target="_blank"
+              rel="noreferrer"
+            >
               GitHub
             </a>
-            <a className="button button-secondary" href={resumeUrl} target="_blank" rel="noreferrer">
+            <a
+              className="button button-secondary"
+              href={resumeUrl}
+              target="_blank"
+              rel="noreferrer"
+            >
               Resume
             </a>
           </div>
@@ -107,67 +137,91 @@ export default function ContactSection() {
           <form className="contact-form" onSubmit={handleSubmit(onSubmit)}>
             <label>
               <span>Full Name</span>
-              <input type="text" placeholder="Your full name" {...register("name")} />
+              <input
+                type="text"
+                placeholder="Your full name"
+                {...register("name")}
+              />
               {errors.name && (
-                <p style={{ color: "#f87171", fontSize: "14px", marginTop: "8px", padding: "10px", background: "rgba(239,68,68,0.1)", borderRadius: "8px", border: "1px solid rgba(239,68,68,0.3)" }}>
+                <p style={errorStyle}>
                   {errors.name.message}
                 </p>
               )}
             </label>
-            
+
             <label>
               <span>Email Address</span>
-              <input type="email" placeholder="you@example.com" {...register("email")} />
+              <input
+                type="email"
+                placeholder="you@example.com"
+                {...register("email")}
+              />
               {errors.email && (
-                <p style={{ color: "#f87171", fontSize: "14px", marginTop: "8px", padding: "10px", background: "rgba(239,68,68,0.1)", borderRadius: "8px", border: "1px solid rgba(239,68,68,0.3)" }}>
+                <p style={errorStyle}>
                   {errors.email.message}
                 </p>
               )}
             </label>
-            
+
             <label>
               <span>Phone Number</span>
-              <input type="tel" placeholder="03160019053 or +923160019053" {...register("phone")} />
+              <input
+                type="tel"
+                placeholder="03160019053 or +923160019053"
+                {...register("phone")}
+              />
               {errors.phone && (
-                <p style={{ color: "#f87171", fontSize: "14px", marginTop: "8px", padding: "10px", background: "rgba(239,68,68,0.1)", borderRadius: "8px", border: "1px solid rgba(239,68,68,0.3)" }}>
+                <p style={errorStyle}>
                   {errors.phone.message}
                 </p>
               )}
             </label>
-            
+
             <label>
               <span>Subject</span>
-              <input type="text" placeholder="What is this about?" {...register("subject")} />
+              <input
+                type="text"
+                placeholder="What is this about?"
+                {...register("subject")}
+              />
               {errors.subject && (
-                <p style={{ color: "#f87171", fontSize: "14px", marginTop: "8px", padding: "10px", background: "rgba(239,68,68,0.1)", borderRadius: "8px", border: "1px solid rgba(239,68,68,0.3)" }}>
+                <p style={errorStyle}>
                   {errors.subject.message}
                 </p>
               )}
             </label>
-            
+
             <label>
               <span>Message</span>
-              <textarea rows={5} placeholder="Tell me about your project..." {...register("message")} />
+              <textarea
+                rows={5}
+                placeholder="Tell me about your project..."
+                {...register("message")}
+              />
               {errors.message && (
-                <p style={{ color: "#f87171", fontSize: "14px", marginTop: "8px", padding: "10px", background: "rgba(239,68,68,0.1)", borderRadius: "8px", border: "1px solid rgba(239,68,68,0.3)" }}>
+                <p style={errorStyle}>
                   {errors.message.message}
                 </p>
               )}
             </label>
 
             {serverError && (
-              <p style={{ color: "#f87171", fontSize: "14px", marginTop: "8px", padding: "10px", background: "rgba(239,68,68,0.1)", borderRadius: "8px", border: "1px solid rgba(239,68,68,0.3)" }}>
+              <p style={errorStyle}>
                 {serverError}
               </p>
             )}
-            
+
             {successMessage && (
-              <p style={{ color: "#34d399", fontSize: "14px", marginTop: "8px", padding: "10px", background: "rgba(52,211,153,0.1)", borderRadius: "8px", border: "1px solid rgba(52,211,153,0.3)" }}>
+              <p style={successStyle}>
                 {successMessage}
               </p>
             )}
 
-            <button className="button button-primary button-submit" type="submit" disabled={isSubmitting}>
+            <button
+              className="button button-primary button-submit"
+              type="submit"
+              disabled={isSubmitting}
+            >
               {isSubmitting ? "Sending..." : "Send Message"}
             </button>
           </form>
