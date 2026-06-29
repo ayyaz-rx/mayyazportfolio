@@ -71,7 +71,7 @@ export default function ContactSection() {
       setSuccessMessage(data?.message || "Message sent successfully.");
 
       reset();
-    } catch (error) {
+    } catch {
       setServerError("Something went wrong. Please try again later.");
     }
   };
@@ -168,84 +168,6 @@ export default function ContactSection() {
             )}
 
             <button className="button button-primary button-submit" type="submit" disabled={isSubmitting}>
-        <div className="rounded-[28px] border border-white/10 bg-white/8 p-6 shadow-2xl shadow-cyan-950/20 backdrop-blur-xl md:p-8">
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
-            <div className="grid gap-5 md:grid-cols-2">
-              <label className="space-y-2">
-                <span className="text-sm font-medium text-slate-200">Name</span>
-                <input
-                  placeholder="Your full name"
-                  {...register("name")}
-                  aria-invalid={Boolean(errors.name)}
-                  className="w-full rounded-xl border border-white/10 bg-[#071a31] px-4 py-3 text-white outline-none transition placeholder:text-slate-500 focus:border-cyan-400"
-                />
-                {errors.name ? <p className="text-sm text-rose-300">{errors.name.message}</p> : null}
-              </label>
-
-              
-
-              <label className="space-y-2">
-                <span className="text-sm font-medium text-slate-200">Email</span>
-                <input
-                  type="email"
-                  placeholder="you@example.com"
-                  {...register("email")}
-                  aria-invalid={Boolean(errors.email)}
-                  className="w-full rounded-xl border border-white/10 bg-[#071a31] px-4 py-3 text-white outline-none transition placeholder:text-slate-500 focus:border-cyan-400"
-                />
-                {errors.email ? <p className="text-sm text-rose-300">{errors.email.message}</p> : null}
-              </label>
-            </div>
-
-            <div className="grid gap-5 md:grid-cols-2">
-              <label className="space-y-2">
-                <span className="text-sm font-medium text-slate-200">Phone</span>
-                <input
-                  placeholder="+92 316 0019053"
-                  {...register("phone")}
-                  aria-invalid={Boolean(errors.phone)}
-                  className="w-full rounded-xl border border-white/10 bg-[#071a31] px-4 py-3 text-white outline-none transition placeholder:text-slate-500 focus:border-cyan-400"
-                />
-                {errors.phone ? <p className="text-sm text-rose-300">{errors.phone.message}</p> : null}
-              </label>
-              <div className="hidden md:block" aria-hidden="true" />
-            </div>
-            <label className="space-y-2">
-              <span className="text-sm font-medium text-slate-200">Subject</span>
-              <input
-                placeholder="Short subject for your message"
-                {...register("subject")}
-                aria-invalid={Boolean(errors.subject)}
-                className="w-full rounded-xl border border-white/10 bg-[#071a31] px-4 py-3 text-white outline-none transition placeholder:text-slate-500 focus:border-cyan-400"
-              />
-              {errors.subject ? <p className="text-sm text-rose-300">{errors.subject.message}</p> : null}
-            </label>
-            <label className="block space-y-2">
-              <span className="text-sm font-medium text-slate-200">Message</span>
-              <textarea
-                placeholder="Tell me about your project"
-                {...register("message")}
-                rows={6}
-                aria-invalid={Boolean(errors.message)}
-                className="w-full rounded-xl border border-white/10 bg-[#071a31] px-4 py-3 text-white outline-none transition placeholder:text-slate-500 focus:border-cyan-400"
-              />
-              {errors.message ? <p className="text-sm text-rose-300">{errors.message.message}</p> : null}
-            </label>
-            {serverError ? (
-              <div className="rounded-xl border border-rose-500/30 bg-rose-500/10 px-4 py-3 text-sm text-rose-100">
-                {serverError}
-              </div>
-            ) : null}
-            {successMessage ? (
-              <div className="rounded-xl border border-emerald-400/30 bg-emerald-400/10 px-4 py-3 text-sm text-emerald-100">
-                {successMessage}
-              </div>
-            ) : null}
-            <button
-              type="submit"
-              disabled={isSubmitting}
-              className="inline-flex w-full items-center justify-center rounded-xl bg-cyan-400 px-5 py-3 font-semibold text-black transition hover:bg-cyan-300 disabled:cursor-not-allowed disabled:opacity-70"
-            >
               {isSubmitting ? "Sending..." : "Send Message"}
             </button>
           </form>
